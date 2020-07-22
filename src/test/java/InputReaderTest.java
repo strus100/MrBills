@@ -13,5 +13,4 @@ class InputReaderTest {
         assertEquals("A",inputReader.lines());
     }
 
-
 }
