@@ -1,29 +1,55 @@
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.stream.Stream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
 
     @Test
-    @Disabled
-    void test1(){
-        Stream<String> mockStream =  Stream.of("set", "PRZYKLADOWA KROTKA", "get");
-        Controller controller = new Controller(mockStream);
+    void getTest(){
+        File test = new File("tester.csv");
+        try {
+            test.createNewFile();
+            FileWriter writer = new FileWriter(test);
+            writer.write("PRZYKLADOWA KROTKA");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        assertEquals(controller.get(),"PRZYKLADOWA KROTKA");
+        Controller controller = new Controller("tester.csv");
+        assertEquals("PRZYKLADOWA KROTKA",controller.get());
+
+        if (test.delete()) {
+            System.out.println("Deleted the file: " + test.getName());
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
     }
 
     @Test
-    @Disabled
-    void test2(){
-        Stream<String> mockStream =  Stream.of("set", "PRZYKLADOWA KROTKA", "get");
-        Controller controller = new Controller(mockStream);
+    void setTest(){
+        File test = new File("tester2.csv");
+        try {
+            test.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Controller controller = new Controller("tester2.csv");
+
         controller.set("PRZYKLADOWA KROTKA");
 
         assertEquals(controller.get(),"PRZYKLADOWA KROTKA");
+
+        if (test.delete()) {
+            System.out.println("Deleted the file: " + test.getName());
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
     }
 
     @Test

@@ -2,20 +2,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Controller {
-    private Stream<String> stringStream;
     InputReader inputReader;
-    FileManager fileManager = new FileManager("recipts.csv");
-    public Controller(Stream<String> stringStream) {
-        this.stringStream = stringStream;
+    private String name;
+    FileManager fileManager;
+
+    public Controller(String testName){
         inputReader = new InputReader();
+        this.name = testName;
+
+        fileManager = new FileManager(name);
     }
 
     public Controller() {
         inputReader = new InputReader();
+        this.name = "recipts.csv";
+
+        fileManager = new FileManager(name);
     }
 
     public String get() {
-        return fileManager.read().collect(Collectors.joining());
+        String x = fileManager.read().collect(Collectors.joining());
+        fileManager.close();
+        return x;
     }
 
     public void set(String string) {

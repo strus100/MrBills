@@ -33,6 +33,7 @@ public class FileManager {
         try {
             writer.write(toWrite + '\n');
             writer.flush();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,4 +56,13 @@ public class FileManager {
             return true;
         }
     }
+
+    public void close(){
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

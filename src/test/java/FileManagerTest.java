@@ -28,11 +28,19 @@ class FileManagerTest {
         FileWriter writer = new FileWriter(file);
         writer.write("EXAMPLE");
         writer.flush();
+        writer.close();
 
         FileManager fileManager = new FileManager("testRead.csv");
         Stream<String> string = fileManager.read();
+        fileManager.close();
 
         assertEquals("EXAMPLE",string.collect(Collectors.joining()));
+
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file: " + file.getName());
+        }
     }
 
     @Test
@@ -42,7 +50,14 @@ class FileManagerTest {
 
         FileManager fileManager = new FileManager("testWrite.csv");
         fileManager.write("EXAMPLE");
+        fileManager.close();
         assertEquals("EXAMPLE",stream.collect(Collectors.joining()));
+
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file:" + file.getName());
+        }
     }
 
     @Test
@@ -51,8 +66,15 @@ class FileManagerTest {
 
         FileManager fileManager = new FileManager("testCreate.csv");
         fileManager.create();
+        fileManager.close();
 
         assertTrue(file.exists());
+
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file:" + file.getName());
+        }
     }
 
     @Test
@@ -61,5 +83,13 @@ class FileManagerTest {
 
         FileManager fileManager = new FileManager("testIsCreated.csv");
         assertTrue(fileManager.isCreated());
+
+        fileManager.close();
+
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file: " + file.getName());
+        }
     }
 }

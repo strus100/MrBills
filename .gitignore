@@ -1,0 +1,6 @@
+*.csv
+*.zip
+*.txt
+target/
+.idea/
+shade/
